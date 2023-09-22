@@ -54,7 +54,8 @@ const Page: FC<PageProps> = async ({ params }) => {
     'get',
     `user:${chatPartnerId}`
   );
-  const chatPartner: User = JSON.parse(chatPartnerRaw) as User;
+  const chatPartner: User = JSON.parse(chatPartnerRaw);
+
   const initialMessages = await getChatMessages(chatId);
   return (
     <div className="flex-1 justify-between flex flex-col h-full max-h-[calc(100vh-6rem)]">
