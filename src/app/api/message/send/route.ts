@@ -50,17 +50,21 @@ export async function POST(req: Request) {
     };
     const message = messageValidator.parse(messageData);
 
-    pusherServer.trigger(
+    await pusherServer.trigger(
       toPusherKey(`chat:${chatId}`),
       'incoming-message',
       message
     );
 
-    pusherServer.trigger(toPusherKey(`user:${friendId}:chats`), 'new_message', {
-      ...message,
-      senderImg: sender.image,
-      senderName: sender.name,
-    });
+    await pusherServer.trigger(
+      toPusherKey(`user:${friendId}:chats`),
+      'new_message',
+      {
+        ...message,
+        senderImg: sender.image,
+        senderName: sender.name,
+      }
+    );
 
     await db.zadd(`chat:${chatId}:messages`, {
       score: timestamp,
